@@ -2,7 +2,15 @@ import React, { useState } from "react";
 import "./index.css";
 import dbsLogo from "./assets/logowhite.png";
 import { FaUser, FaSearch, FaEnvelope, FaSitemap, FaSignOutAlt, FaCommentDots, FaTimes, FaPaperPlane } from "react-icons/fa";
+import { createGlobalStyle } from "styled-components";
 
+const GlobalStyle = createGlobalStyle`
+  @import url('https://db.onlinewebfonts.com/c/19b16f62a14ab3851710cff5d5b156b6?family=Sirichana+W31+Bold');
+
+  * {
+    font-family: "Sirichana W31 Bold", sans-serif !important;
+  }
+`;
 function App() {
   const [activeTab, setActiveTab] = useState("My Accounts");
   const [chatOpen, setChatOpen] = useState(false);
