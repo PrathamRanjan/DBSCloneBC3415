@@ -1,6 +1,0 @@
-Flask
-flask-cors
-pinecone-client
-python-dotenv
-langchain-groq
-sentence-transformers
