@@ -1,49 +1,44 @@
 import React, { useState } from "react";
 import "./index.css";
 import dbsLogo from "./assets/logowhite.png";
-import { FaUser, FaSearch, FaEnvelope, FaSitemap, FaSignOutAlt, FaCommentDots, FaTimes, FaPaperPlane } from "react-icons/fa";
-import { createGlobalStyle } from "styled-components";
+import { FaUser, FaSearch, FaEnvelope, FaSitemap, FaSignOutAlt, FaCommentDots, FaTimes } from "react-icons/fa";
 
-const GlobalStyle = createGlobalStyle`
-  @import url('https://db.onlinewebfonts.com/c/19b16f62a14ab3851710cff5d5b156b6?family=Sirichana+W31+Bold');
+const API_BASE_URL = "https://dbsclonebc3415.onrender.com"; // Backend API URL
 
-  * {
-    font-family: "Sirichana W31 Bold", sans-serif !important;
-  }
-`;
 function App() {
   const [activeTab, setActiveTab] = useState("My Accounts");
-  const [chatOpen, setChatOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { text: "👋 Hi! How can I assist you today?", sender: "bot" }
-  ]);
-  const [input, setInput] = useState("");
+  const [chatOpen, setChatOpen] = useState(false); // Chatbot state
+  const [messages, setMessages] = useState([{ text: "👋 Hi! How can I assist you today?", sender: "bot" }]);
+  const [userInput, setUserInput] = useState("");
 
-  const sendMessage = async () => {
-    if (!input.trim()) return; // Prevent empty messages
+  // Function to send message to chatbot API
+  async function sendMessageToChatbot() {
+    if (!userInput.trim()) return;
 
-    const userMessage = { text: input, sender: "user" };
-    setMessages([...messages, userMessage]);
+    // Append user message to UI immediately
+    setMessages([...messages, { text: userInput, sender: "user" }]);
+    setUserInput(""); // Clear input field
 
     try {
-      // Call Flask API (port 5009)
-      const response = await fetch("http://127.0.0.1:5009/chat", {
+      const response = await fetch(`${API_BASE_URL}/chat`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: input }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: userInput }),
       });
 
+      if (!response.ok) {
+        throw new Error("Failed to fetch chatbot response.");
+      }
+
       const data = await response.json();
-      const botMessage = { text: data.response, sender: "bot" };
-
-      setMessages([...messages, userMessage, botMessage]);
+      setMessages([...messages, { text: userInput, sender: "user" }, { text: data.reply, sender: "bot" }]);
     } catch (error) {
-      console.error("Error:", error);
-      setMessages([...messages, userMessage, { text: "❌ Error connecting to chatbot.", sender: "bot" }]);
+      console.error("Chatbot Error:", error);
+      setMessages([...messages, { text: "Error: Chatbot is not responding.", sender: "bot" }]);
     }
-
-    setInput(""); // Clear input field
-  };
+  }
 
   return (
     <div className="min-h-screen font-[Sirichana W31 Bold] bg-gray-200 flex flex-col items-center">
@@ -137,28 +132,18 @@ function App() {
           {/* Chatbot Messages */}
           <div className="flex-1 p-4 overflow-y-auto">
             {messages.map((msg, index) => (
-              <p key={index} className={`mb-2 p-2 rounded ${msg.sender === "bot" ? "bg-gray-200 text-black" : "bg-[#cc0100] text-white self-end"}`}>
-                {msg.text}
-              </p>
+              <p key={index} className={msg.sender === "user" ? "text-blue-500" : "text-gray-600"}>{msg.text}</p>
             ))}
           </div>
 
           {/* Chatbot Input */}
           <div className="p-3 border-t border-gray-300 flex">
-            <input
-              type="text"
-              placeholder="Type a message..."
-              className="w-full p-2 border border-gray-300 rounded-l focus:outline-none"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
-            <button onClick={sendMessage} className="bg-[#cc0100] text-white px-4 py-2 rounded-r hover:bg-[#7f0000]">
-              <FaPaperPlane />
-            </button>
+            <input type="text" value={userInput} onChange={(e) => setUserInput(e.target.value)}
+              placeholder="Type a message..." className="w-full p-2 border border-gray-300 rounded-l focus:outline-none" />
+            <button onClick={sendMessageToChatbot} className="bg-[#cc0100] text-white px-4 py-2 rounded-r hover:bg-[#7f0000]">Send</button>
           </div>
         </div>
       )}
-
     </div>
   );
 }
