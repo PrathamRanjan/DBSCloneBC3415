@@ -15,7 +15,7 @@ if not pinecone_api_key or not groq_api_key:
 
 # Initialize Flask app & Enable CORS (Allow frontend requests)
 app = Flask(__name__)
-CORS(app, origins=["https://dbs-clone-bc-3415-zzvc.vercel.app"])  # Your frontend URL
+CORS(app, origins="*")
 
 # Initialize Pinecone
 pc = Pinecone(api_key=pinecone_api_key)
