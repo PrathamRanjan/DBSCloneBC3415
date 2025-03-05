@@ -1,18 +1,29 @@
-@import url('https://db.onlinewebfonts.com/c/19b16f62a14ab3851710cff5d5b156b6?family=Sirichana+W31+Bold');
+/* Self-hosted font definition */
+@font-face {
+  font-family: 'Sirichana W31 Bold';
+  src: url('./assets/fonts/sirichana-bold.woff2') format('woff2'),
+       url('./assets/fonts/sirichana-bold.woff') format('woff'),
+       url('./assets/fonts/sirichana-bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 @import "tailwindcss";
+
 
 /* Force Apply Font to Tailwind */
 @layer base {
   html {
-    font-family: "Sirichana W31 Bold", sans-serif !important;
+    font-family: "Sirichana W31 Bold", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
   }
 }
 
 * {
-  font-family: "Sirichana W31 Bold", sans-serif !important;
+  font-family: "Sirichana W31 Bold", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
 }
 
 /* Debug: Apply Font Only to Specific Elements */
 .font-sirichana {
-  font-family: "Sirichana W31 Bold", sans-serif !important;
+  font-family: "Sirichana W31 Bold", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
 }
