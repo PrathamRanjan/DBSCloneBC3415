@@ -1,15 +1,15 @@
+@import "tailwindcss";
+
 /* Self-hosted font definition */
 @font-face {
   font-family: 'Sirichana W31 Bold';
-  src: url('./assets/fonts/sirichana-bold.woff2') format('woff2'),
-       url('./assets/fonts/sirichana-bold.woff') format('woff'),
-       url('./assets/fonts/sirichana-bold.ttf') format('truetype');
+  src: url('./assets/fonts/19b16f62a14ab3851710cff5d5b156b6.woff2') format('woff2'),
+       url('./assets/fonts/Sirichana%20W31%20Bold.woff') format('woff'),
+       url('./assets/fonts/Sirichana%20W31%20Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
-
-@import "tailwindcss";
 
 
 /* Force Apply Font to Tailwind */
